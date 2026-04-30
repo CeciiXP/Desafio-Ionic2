@@ -13,8 +13,14 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <div id="container"></div>
+
+    <strong>Organizador</strong>
+    <ion-button (click)="TarefasConcluidas()">Filtrar tarefas conluidas</ion-button>
+      <p style="margin-top: 20px; font-weight: bold;">
+      {{ mensagemResultado }}
+      </p>
+     <ion-button (click)="TarefasPendentes()">Filtrar tarfeas pendentes</ion-button>
+      <ion-button (click)="calcularEstoque()">Calcular Estoque</ion-button>
+       <ion-button (click)="formatarPreco()">Formatar Preço</ion-button>
 </ion-content>
