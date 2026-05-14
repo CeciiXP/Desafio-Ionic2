@@ -1,26 +1,144 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Organizador
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Organizador</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container"></div>
+ <div *ngIf="tela === 'menu'">
+    <strong>MENU</strong>
 
-    <strong>Organizador</strong>
-    <ion-button (click)="TarefasConcluidas()">Filtrar tarefas conluidas</ion-button>
-      <p style="margin-top: 20px; font-weight: bold;">
-      {{ mensagemResultado }}
-      </p>
-     <ion-button (click)="TarefasPendentes()">Filtrar tarfeas pendentes</ion-button>
-      <ion-button (click)="calcularEstoque()">Calcular Estoque</ion-button>
-       <ion-button (click)="formatarPreco()">Formatar Preço</ion-button>
+    <ion-button expand="block" (click)="tela = 'produtos'">
+      Listar Produtos
+    </ion-button>
+
+    <ion-button expand="block" (click)="tela = 'tarefas'">
+      Listar Tarefas
+    </ion-button>
+
+    <ion-button expand="block" (click)="tela = 'filtrarPorPrioridade'">
+      Filtrar por prioridades
+    </ion-button>
+
+    <ion-button id="sair" expand="block" (click)="tela = 'menu'">
+      Sair
+    </ion-button>
+
+  </div>
+
+  <div *ngIf="tela === 'produtos'">
+
+  <ion-button (click)="tela = 'menu'">
+    Voltar
+  </ion-button>
+
+  <ion-card *ngFor="let p of produtos">
+    <p>{{ p.nome }}</p>
+    <p>{{ formatarPreco(p.preco) }}</p>
+    <p>Estoque: {{ p.estoque }}</p>
+  </ion-card>
+
+  <ion-button expand="block" (click)="MostrarTotalEstoque()" *ngIf="produtos.length > 0">
+    Calcular total do estoque
+  </ion-button>
+
+  <p *ngIf="produtos.length > 0">
+    {{ mensagemResultado }}
+  </p>
+
+<ion-card>
+
+  <ion-item>
+    <ion-input placeholder="Nome" [(ngModel)]="novoNome"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input type="number" placeholder="Preço" [(ngModel)]="novoPreco"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input type="number" placeholder="Estoque" [(ngModel)]="novoEstoque"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="adicionarProduto()">
+    Cadastrar produto
+  </ion-button>
+
+</ion-card>
+
+  <p>
+    {{ mensagemResultado }}
+  </p>
+
+</div>
+
+<div *ngIf="tela === 'tarefas'">
+
+  <ion-button (click)="tela = 'menu'">
+    Voltar
+  </ion-button>
+
+  <ion-card *ngFor="let t of tarefas" (click)="alternarConcluida(t)">
+
+  <p>{{ t.titulo }}</p>
+
+  <p>
+    {{ t.concluida ? 'Concluída' : 'Pendente' }}
+  </p>
+
+  <p>{{ t.prioridade }}</p>
+
+</ion-card>
+
+   <ion-button (click)="TarefasConcluidas()">
+    Mostrar Concluídas
+  </ion-button>
+
+  <ion-button (click)="TarefasPendentes()">
+    Mostrar Pendentes
+  </ion-button>
+
+  <p *ngIf="mensagemResultado">
+    {{ mensagemResultado }}
+  </p>
+
+</div>
+
+<div *ngIf="tela === 'filtrarPorPrioridade'">
+
+  <ion-button (click)="tela = 'menu'">
+    Voltar
+  </ion-button>
+
+  <ion-card *ngFor="let t of filtrarPorPrioridade()">
+    <p>{{ t.titulo }}</p>
+    <p>{{ t.concluida ? 'Concluída' : 'Pendente' }}</p>
+    <p>{{ t.prioridade }}</p>
+  </ion-card>
+
+  <ion-button (click)="filtroPrioridade = 'alta'">
+    Alta
+  </ion-button>
+
+  <ion-button (click)="filtroPrioridade = 'media'">
+    Média
+  </ion-button>
+
+  <ion-button (click)="filtroPrioridade = 'baixa'">
+    Baixa
+  </ion-button>
+
+  </div>
+
+
+
 </ion-content>
